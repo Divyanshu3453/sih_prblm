@@ -115,6 +115,196 @@ a { color: inherit; text-decoration: none; }
 .test-top h1, .progress-page h1 { margin: 5px 0 0; font-size: 32px; letter-spacing: -.04em; }
 .test-start { text-align: center; padding: 55px 25px; }
 .test-start p { color: #70798a; font-size: 13px; max-width: 550px; margin: 8px auto 20px; }
+/* =========================
+   TEST HISTORY
+========================= */
+
+.history-panel {
+  margin-top: 20px;
+}
+
+.history-panel .panel-head {
+  margin-bottom: 22px;
+}
+
+/* Graph container */
+.history-chart {
+  margin: 0 0 28px;
+  padding: 22px 20px 16px;
+  border: 1px solid #e1e5ea;
+  border-radius: 12px;
+  background: #fafbfc;
+}
+
+.history-chart-header {
+  margin-bottom: 18px;
+}
+
+.history-chart-header div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.history-chart-header strong {
+  font-size: 15px;
+  color: #182234;
+}
+
+.history-chart-header span {
+  font-size: 12px;
+  color: #717a89;
+}
+
+/* =========================
+   HISTORY RECORDS
+========================= */
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Individual test card */
+.history-item {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr 1.5fr 0.6fr;
+  align-items: center;
+  gap: 24px;
+
+  padding: 18px 20px;
+
+  border: 1px solid #e1e5ea;
+  border-radius: 12px;
+
+  background: #fff;
+
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.history-item:hover {
+  box-shadow: 0 4px 14px rgba(16, 24, 39, 0.06);
+  transform: translateY(-1px);
+}
+
+/* Test ID + date */
+.history-test-info {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.history-test-info strong {
+  font-size: 14px;
+  color: #182234;
+}
+
+.history-test-info span {
+  font-size: 12px;
+  color: #717a89;
+}
+
+/* Risk */
+.history-risk {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.history-risk strong {
+  font-size: 22px;
+  line-height: 1;
+  color: #182234;
+}
+
+.risk-badge {
+  width: fit-content;
+  padding: 4px 9px;
+
+  border-radius: 999px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+
+  background: #f0f2f5;
+}
+
+/* Sensor values */
+.history-sensors {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(70px, 1fr));
+  gap: 18px;
+}
+
+.history-sensors div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.history-sensors span,
+.history-observations span {
+  font-size: 11px;
+  color: #717a89;
+}
+
+.history-sensors strong {
+  font-size: 14px;
+  color: #182234;
+}
+
+/* Observations */
+.history-observations {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
+}
+
+.history-observations strong {
+  font-size: 14px;
+  color: #182234;
+}
+
+/* =========================
+   MOBILE / SMALL SCREEN
+========================= */
+
+@media (max-width: 1000px) {
+  .history-item {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .history-sensors {
+    grid-column: 1 / -1;
+  }
+
+  .history-observations {
+    text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  .history-item {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .history-sensors {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .history-observations {
+    text-align: left;
+  }
+}
 .stepper { display: flex; gap: 7px; margin-bottom: 25px; }
 .stepper span { background: #f1f3f5; color: #818a99; border-radius: 99px; padding: 7px 10px; font-size: 11px; font-weight: 700; }
 .stepper .active { background: #182234; color: #fff; }
@@ -160,7 +350,17 @@ a { color: inherit; text-decoration: none; }
 .form-note a { color: #182234; font-weight: 700; }
 .loading, .screen-center { min-height: 55vh; display: grid; place-items: center; color: #70798a; font-size: 13px; }
 .screen-center { text-align: center; }
-
+.language-select {
+  width: 100%;
+  height: 40px;
+  padding: 0 14px;
+  font-size: 16px;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  background: #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+}
 @media (max-width: 1000px) {
   .stats-grid { grid-template-columns: repeat(3,1fr); }
   .cow-grid { grid-template-columns: repeat(2,1fr); }

@@ -1,10 +1,13 @@
 import React from "react";
+import LanguageSelector from "./LanguageSelector";
+import { useTranslation } from "react-i18next";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Activity, LayoutDashboard, LogOut, PawPrint, UserRound } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 export default function Layout() {
   const { user, signOut } = useAuth();
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const logout = async () => {
@@ -24,10 +27,20 @@ export default function Layout() {
         </div>
 
         <nav className="nav">
-          <NavLink to="/dashboard"><LayoutDashboard size={18} /> Dashboard</NavLink>
-          <NavLink to="/cows"><PawPrint size={18} /> My Cows</NavLink>
-          <NavLink to="/profile"><UserRound size={18} /> Profile</NavLink>
-        </nav>
+  <NavLink to="/dashboard">
+    <LayoutDashboard size={18} /> {t("dashboard")}
+  </NavLink>
+
+  <NavLink to="/cows">
+    <PawPrint size={18} /> {t("myCows")}
+  </NavLink>
+
+  <NavLink to="/profile">
+    <UserRound size={18} /> {t("profile")}
+  </NavLink>
+
+  <LanguageSelector />
+</nav>
 
         <div className="sidebar-footer">
           <div className="user-mini">
@@ -37,7 +50,7 @@ export default function Layout() {
               <span>{user?.farmName || "Farm"}</span>
             </div>
           </div>
-          <button className="ghost-btn" onClick={logout}><LogOut size={17} /> Logout</button>
+          <button className="ghost-btn" onClick={logout}><LogOut size={17} /> {t("logout")}</button>
         </div>
       </aside>
 
