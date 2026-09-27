@@ -43,21 +43,20 @@ export default function TestResult() {
   }
 
   const riskClass = String(
-    result.risk?.level || "UNKNOWN"
+    result.risk?.level || "HIGH"
   ).toLowerCase();
 
   const getRiskLabel = (level) => {
-    const normalized = String(level || "UNKNOWN").toUpperCase();
+    const normalized = String(level || "HIGH").toUpperCase();
 
     const riskTranslations = {
       LOW: "riskLow",
       MEDIUM: "riskMedium",
       HIGH: "riskHigh",
       CRITICAL: "riskCritical",
-      UNKNOWN: "unknown",
     };
 
-    return t(riskTranslations[normalized] || "unknown");
+    return t(riskTranslations[normalized] || "High");
   };
 
   const getTrendLabel = (trend) => {

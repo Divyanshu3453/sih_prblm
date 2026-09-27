@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ErrorBox from "../components/ErrorBox";
@@ -17,7 +16,6 @@ export default function Login() {
 
   const handleLanguageChange = (e) => {
     const selectedLanguage = e.target.value;
-
     i18n.changeLanguage(selectedLanguage);
     localStorage.setItem("language", selectedLanguage);
   };
@@ -29,11 +27,7 @@ export default function Login() {
 
     try {
       await signIn(form);
-
-      navigate(
-        location.state?.from?.pathname || "/dashboard",
-        { replace: true }
-      );
+      navigate(location.state?.from?.pathname || "/dashboard", { replace: true });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -71,10 +65,7 @@ export default function Login() {
             required
             value={form.email}
             onChange={(e) =>
-              setForm({
-                ...form,
-                email: e.target.value,
-              })
+              setForm({ ...form, email: e.target.value })
             }
           />
         </label>
@@ -86,26 +77,24 @@ export default function Login() {
             required
             value={form.password}
             onChange={(e) =>
-              setForm({
-                ...form,
-                password: e.target.value,
-              })
+              setForm({ ...form, password: e.target.value })
             }
           />
         </label>
 
-        <button
-          className="primary-btn"
-          disabled={busy}
-        >
+        <button className="primary-btn" disabled={busy}>
           {busy ? t("signingIn") : t("signIn")}
         </button>
 
+        {/* Demo credentials hint */}
+        <div className="demo-credentials">
+          <p><strong>Demo Login:</strong></p>
+          <p>Admin → Email: <code>admin@demo.com</code>, Password: <code>demo1234</code></p>
+        </div>
+
         <p className="form-note">
           {t("newFarmer")}{" "}
-          <Link to="/register">
-            {t("createAccount")}
-          </Link>
+          <Link to="/register">{t("createAccount")}</Link>
         </p>
       </form>
     </AuthLayout>
@@ -118,7 +107,6 @@ function AuthLayout({ title, subtitle, children }) {
       <div className="auth-card">
         <div className="brand auth-brand">
           <div className="brand-mark">S</div>
-
           <div>
             <strong>SOMATIC</strong>
             <span>Clinical Field System</span>

@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -22,9 +21,7 @@ export default function TestProgress() {
         const data = await getTestStatus(testId);
         setStatus(data);
 
-        if (
-          !["COMPLETED", "FAILED", "CANCELLED"].includes(data.status)
-        ) {
+        if (!["COMPLETED", "FAILED", "CANCELLED"].includes(data.status)) {
           timer = setTimeout(poll, 2000);
         }
       } catch (err) {
@@ -52,8 +49,25 @@ export default function TestProgress() {
     CANCELLED: "assessmentCancelled",
   };
 
-  const currentStatusKey =
-    statusText[status?.status] || "processing";
+  const currentStatusKey = statusText[status?.status] || "processing";
+
+  // 🔹 Demo trigger function
+  function runDemoTest(type) {
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
+  fetch(`${API_URL}/api/iot/sensor-data?demo=${type}`, { method: "POST" })
+    .then(res => {
+      if (!res.ok) throw new Error("Server error: " + res.status);
+      return res.json();
+    })
+    .then(result => {
+      alert(`Demo (${type}) started. Test ID: ${result.data.testId}`);
+    })
+    .catch(err => {
+      console.error("Demo test failed:", err);
+      alert("Demo test failed: " + err.message);
+    });
+}
 
   return (
     <div className="progress-page">
@@ -79,8 +93,7 @@ export default function TestProgress() {
         </div>
 
         <p>
-          {t("backendState")}:{" "}
-          <strong>{status?.status}</strong>
+          {t("backendState")}: <strong>{status?.status}</strong>
         </p>
 
         {status?.status === "COMPLETED" && (
@@ -93,22 +106,34 @@ export default function TestProgress() {
         )}
 
         {status?.status === "FAILED" && (
-          <Link
-            className="secondary-btn inline-btn"
-            to="/dashboard"
-          >
+          <Link className="secondary-btn inline-btn" to="/dashboard">
             {t("returnToDashboard")}
           </Link>
         )}
       </section>
 
+      {/* 🔹 Demo buttons for judges */}
+      <div className="demo-buttons">
+        <button
+          className="primary-btn inline-btn"
+          onClick={() => runDemoTest("healthy")}
+        >
+          Run Healthy Demo
+        </button>
+
+        <button
+          className="secondary-btn inline-btn"
+          onClick={() => runDemoTest("mastitis")}
+        >
+          Run Mastitis Demo
+        </button>
+      </div>
+
       <div className="sensor-note">
         <strong>{t("hardwareIntegration")}</strong>
-
         <span>
           {t("hardwareIntegrationDescription")}{" "}
-          <code>/api/iot/sensor-data</code>{" "}
-          {t("usingTestId")}
+          <code>/api/iot/sensor-data</code> {t("usingTestId")}
         </span>
       </div>
     </div>

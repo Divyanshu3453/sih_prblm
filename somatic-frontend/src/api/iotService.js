@@ -9,6 +9,6 @@ import client from "./client";
  * }
  */
 export const sendSensorData = async (payload) => {
-  const { data } = await client.post("/iot/sensor-data", payload);
+  const { data } = await client.post("/api/iot/sensor-data", payload);
   return data.data;
 };

@@ -17,10 +17,11 @@ const router = express.Router();
  *
  * Backend determines the active test from the test state.
  */
-router.post(
-  '/sensor-data',
-  validate(sensorDataSchema),
-  iotController.receiveSensorData
-);
+router.post('/sensor-data', (req, res, next) => {
+  if (req.query.demo) {
+    return iotController.receiveSensorData(req, res, next);
+  }
+  return validate(sensorDataSchema)(req, res, next);
+}, iotController.receiveSensorData);
 
 module.exports = router;

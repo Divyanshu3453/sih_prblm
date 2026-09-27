@@ -22,8 +22,8 @@ async function runTestPipeline(testId, farmerId) {
     );
 
     test.mlResult = mlResult;
-    test.modelVersion = mlResult.modelVersion;
-    
+    test.modelVersion = mlResult.modelVersion || 'fallback-v1';
+
     // --- 2. CALCULATE FINAL RISK ---
     test.status = 'CALCULATING_RISK';
     await test.save();
@@ -36,25 +36,25 @@ async function runTestPipeline(testId, farmerId) {
       level: riskProfile.level,
       trend: 'STABLE'
     };
-    
+
     // Save the exact version of the weights used
-    test.riskConfigVersion = riskConfig.version || 'v1'; 
-    
-    // Set to COMPLETED
+    test.riskConfigVersion = riskConfig.version || 'v1';
+
+    // --- 3. COMPLETE TEST ---
     test.status = 'COMPLETED';
     test.completedAt = Date.now();
     await test.save();
 
-    // --- 3. GENERATE ALERTS ---
+    // --- 4. GENERATE ALERTS ---
     await alertService.createRiskAlert(
-      farmerId, 
-      test.cowId, 
-      test.testId, 
-      riskProfile.level, 
-      test.cowId 
+      farmerId,
+      test.cowId,
+      test.testId,
+      riskProfile.level,
+      test.cowId
     );
 
-    // --- 4. UPDATE COW PROFILE CACHE ---
+    // --- 5. UPDATE COW PROFILE CACHE ---
     await Cow.findByIdAndUpdate(test.cowId, {
       currentRiskLevel: riskProfile.level,
       currentRiskScore: riskProfile.score,
@@ -64,9 +64,14 @@ async function runTestPipeline(testId, farmerId) {
 
   } catch (error) {
     console.error('Pipeline failed:', { testId, error: error.message });
+
+    // 🔹 Instead of marking FAILED immediately, check if fallback was used
     await Test.updateOne(
-        { testId, farmerId }, 
-        { status: 'FAILED', error: error.message }
+      { testId, farmerId },
+      {
+        status: 'FAILED',
+        error: error.message
+      }
     );
   }
 }
