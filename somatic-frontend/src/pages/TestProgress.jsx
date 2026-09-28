@@ -55,7 +55,7 @@ export default function TestProgress() {
   function runDemoTest(type) {
   const API_URL = import.meta.env.VITE_API_BASE_URL;
 
-  fetch(`${API_URL}/api/iot/sensor-data?demo=${type}`, { method: "POST" })
+  fetch(`${API_URL}/iot/sensor-data?demo=${type}`, { method: "POST" })
     .then(res => {
       if (!res.ok) throw new Error("Server error: " + res.status);
       return res.json();
